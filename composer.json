@@ -12,8 +12,7 @@
   "minimum-stability": "stable",
   "require": {
     "symfony/symfony": "^3.0",
-    "johnkrovitch/sam": "dev-dev",
-    "johnkrovitch/sam-bundle": "dev-master"
+    "johnkrovitch/sam": "dev-dev"
   },
   "keywords": [
     "Admin",
