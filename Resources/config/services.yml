@@ -1,0 +1,5 @@
+services:
+    jk.assets.notification_subscriber:
+        class: JK\SamBundle\Event\Subscriber\NotificationSubscriber
+        tags:
+            - {name: kernel.event_subscriber}

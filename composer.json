@@ -1,0 +1,29 @@
+{
+  "name": "johnkrovitch/sam-bundle",
+  "description": "Bundle to integrate Sam library to Symfony",
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "johnkrovitch",
+      "email": "arnaudfrezet@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "symfony/symfony": "^3.0",
+    "johnkrovitch/sam": "dev-dev"
+  },
+  "keywords": [
+    "Admin",
+    "Backoffice",
+    "Symfony2",
+    "Generic"
+  ],
+  "autoload": {
+    "psr-0": {
+      "JK\\SamBundle": ""
+    }
+  },
+  "target-dir": "JK/SamBundle"
+}
