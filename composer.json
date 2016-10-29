@@ -14,6 +14,9 @@
     "symfony/symfony": "^3.0",
     "johnkrovitch/sam": "dev-dev"
   },
+  "require-dev": {
+    "phpunit/phpunit": "^5.6"
+  },
   "keywords": [
     "Admin",
     "Backoffice",
@@ -24,6 +27,9 @@
     "psr-0": {
       "JK\\SamBundle": ""
     }
+  },
+  "config": {
+    "bin-dir": "bin"
   },
   "target-dir": "JK/SamBundle"
 }
