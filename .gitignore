@@ -1,2 +1,5 @@
 /vendor/
 composer.lock
+bin
+phpunit.xml
+build
