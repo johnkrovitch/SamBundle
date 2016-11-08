@@ -22,40 +22,42 @@ class FileIndexer implements FileIndexerInterface
     /**
      * Index a given directory : add each found files (according to the given extension) to the index.
      *
-     * @param $directory
-     *
+     * @param array $directories
      * @param array $extensions
      *
      * @throws Exception
      */
-    public function index($directory, array $extensions = [])
+    public function index(array $directories, array $extensions = [])
     {
         $fileSystem = new Filesystem();
         $finder = new Finder();
 
-        if (!$fileSystem->exists($directory)) {
-            throw new Exception('The directory '.$directory.' does not exists');
-        }
         // reset the change set
         $this->changes = [];
-
         clearstatcache();
 
-        // find all files in the given directory
-        $finder
-            ->files()
-            ->in($directory)
-        ;
+        foreach ($directories as $directory) {
+            if (!$fileSystem->exists($directory)) {
+                throw new Exception('The directory '.$directory.' does not exists');
+            }
 
-        // eventually filtering by file extension
-        foreach ($extensions as $extension) {
-            $finder->name('*.'.$extension);
+            // find all files in the given directory
+            $finder
+                ->files()
+                ->in($directory)
+            ;
+
+            // eventually filtering by file extension
+            foreach ($extensions as $extension) {
+                $finder->name('*.'.$extension);
+            }
+
+            // index the results
+            foreach ($finder as $file) {
+                $this->add($file);
+            }
         }
 
-        // index the results
-        foreach ($finder as $file) {
-            $this->add($file);
-        }
     }
 
     /**

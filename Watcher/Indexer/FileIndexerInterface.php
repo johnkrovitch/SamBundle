@@ -10,13 +10,10 @@ interface FileIndexerInterface
     /**
      * Index a given directory : add each found files (according to the given extension) to the index.
      *
-     * @param $directory
-     *
+     * @param array $directories
      * @param array $extensions
-     *
-     * @throws Exception
      */
-    public function index($directory, array $extensions = []);
+    public function index(array $directories, array $extensions = []);
 
     /**
      * Add an entry to the indexer. If a entry already exists, it will also be added to the changes.
