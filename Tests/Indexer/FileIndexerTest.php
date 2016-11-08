@@ -19,7 +19,9 @@ class FileIndexerTest extends PHPUnit_Framework_TestCase
         $exceptionRaised = false;
 
         try {
-            $indexer->index(__DIR__.'/assets');
+            $indexer->index([
+                __DIR__.'/assets'
+            ]);
         } catch (Exception $exception) {
             $exceptionRaised = true;
         }
@@ -32,7 +34,9 @@ class FileIndexerTest extends PHPUnit_Framework_TestCase
     public function testIndex()
     {
         $indexer = new FileIndexer();
-        $indexer->index($this->getAssetsDirectory());
+        $indexer->index([
+            $this->getAssetsDirectory()
+        ]);
         $finder = new Finder();
         $finder
             ->files()
@@ -51,7 +55,11 @@ class FileIndexerTest extends PHPUnit_Framework_TestCase
     public function testIndexFilteredByExtensions()
     {
         $indexer = new FileIndexer();
-        $indexer->index($this->getAssetsDirectory(), ['txt']);
+        $indexer->index([
+            $this->getAssetsDirectory()
+        ], [
+            'txt'
+        ]);
         $finder = new Finder();
         $finder
             ->files()
@@ -106,13 +114,19 @@ class FileIndexerTest extends PHPUnit_Framework_TestCase
         $indexer = new FileIndexer();
 
         // index for the first time
-        $indexer->index($this->getAssetsDirectory(), ['scss']);
+        $indexer->index([
+            $this->getAssetsDirectory()
+        ], [
+            'scss'
+        ]);
 
         // modify a file
         touch($modifiedFile);
 
         // reindex
-        $indexer->index($this->getAssetsDirectory());
+        $indexer->index([
+            $this->getAssetsDirectory()
+        ]);
 
         // one file must be found in the change set
         $this->assertCount(1, $indexer->getChangedEntries());
