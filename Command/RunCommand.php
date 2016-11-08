@@ -5,56 +5,50 @@ namespace JK\SamBundle\Command;
 use Exception;
 use JK\Sam\File\Locator;
 use JK\Sam\File\Normalizer;
-use JK\Sam\Filter\FilterBuilder;
-use JK\Sam\Filter\FilterInterface;
-use JK\Sam\Task\Task;
-use JK\Sam\Task\TaskBuilder;
+use JK\Sam\Task\Task;;
 use JK\Sam\Task\TaskRunner;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class RunCommand extends Command implements ContainerAwareInterface
+class RunCommand extends AbstractAssetsCommand implements ContainerAwareInterface
 {
     /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
-    /**
-     * @var boolean
-     */
-    protected $debug = false;
-
-    /**
-     * @var SymfonyStyle
-     */
-    protected $io;
-
-    /**
-     *
+     * Configure the task name.
      */
     protected function configure()
     {
         $this
             ->setName('jk:assets:build')
-            ->setDescription('Build the assets according to your tasks configuration ("jk_assets")')
+            ->setDescription('Build the assets according to your assets configuration ("jk_assets")')
+            ->addOption('config', 'c', InputOption::VALUE_OPTIONAL,
+                'If defined, this file will be used to load the assets configuration. It should be an yml file '
+                .'containing an array of tasks.
+                    jk_assets:
+                    ____tasks:
+                    ________// your configuration
+                    ________...
+                '
+            )
         ;
     }
 
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
+     *
      * @return int|null|void
+     *
      * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->io = new SymfonyStyle($input, $output);
-        $this->io->title('Symfony PHP Assets Manager');
+        $this
+            ->io
+            ->title('Symfony PHP Assets Manager');
 
         // get debug mode
         $this->debug = $this
@@ -66,7 +60,7 @@ class RunCommand extends Command implements ContainerAwareInterface
         }
 
         // build tasks to run
-        $tasks = $this->buildTasks();
+        $tasks = $this->buildTasks($input);
 
         // build required filters
         $filters = $this->buildFilters();
@@ -83,52 +77,8 @@ class RunCommand extends Command implements ContainerAwareInterface
 
         // display end message
         $this->io->success('Assets build end');
-    }
 
-    /**
-     * Sets the container.
-     *
-     * @param ContainerInterface|null $container A ContainerInterface instance or null
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
-    }
-
-    /**
-     * @return Task[]
-     */
-    protected function buildTasks()
-    {
-        $this->io->text('- Building tasks...');
-        $builder = new TaskBuilder($this->debug);
-        $tasks = $builder->build(
-            $this
-                ->container
-                ->getParameter('jk.assets.tasks')
-        );
-        $this->io->text('- Tasks build !');
-        $this->io->newLine();
-
-        return $tasks;
-    }
-
-    /**
-     * @return FilterInterface[]
-     */
-    protected function buildFilters()
-    {
-        $this->io->text('- Building filters...');
-        $builder = new FilterBuilder($this->container->get('event_dispatcher'));
-        $filters = $builder->build(
-            $this
-                ->container
-                ->getParameter('jk.assets.filters')
-        );
-        $this->io->text('- Filters build !');
-        $this->io->newLine();
-
-        return $filters;
+        return 0;
     }
 
     /**
