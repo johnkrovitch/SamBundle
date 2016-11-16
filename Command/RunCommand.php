@@ -5,7 +5,7 @@ namespace JK\SamBundle\Command;
 use Exception;
 use JK\Sam\File\Locator;
 use JK\Sam\File\Normalizer;
-use JK\Sam\Task\Task;;
+use JK\Sam\Task\Task;
 use JK\Sam\Task\TaskRunner;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -25,11 +25,12 @@ class RunCommand extends AbstractAssetsCommand implements ContainerAwareInterfac
             ->setDescription('Build the assets according to your assets configuration ("jk_assets")')
             ->addOption('config', 'c', InputOption::VALUE_OPTIONAL,
                 'If defined, this file will be used to load the assets configuration. It should be an yml file '
-                .'containing an array of tasks.
-                    jk_assets:
+                .'containing an array of tasks and filters.
+                    jk.assets:
                     ____tasks:
                     ________// your configuration
                     ________...
+                    ____filters: ...
                 '
             )
         ;
@@ -50,28 +51,36 @@ class RunCommand extends AbstractAssetsCommand implements ContainerAwareInterfac
             ->io
             ->title('Symfony PHP Assets Manager');
 
+        // load configuration from container or given file path
+        $configuration = $this->loadConfiguration($input);
+
         // get debug mode
-        $this->debug = $this
-            ->container
-            ->getParameter('jk.assets.debug');
+        $this->debug = $configuration['debug'];
 
         if ($this->debug) {
             $this->io->note('Debug Mode...');
         }
 
         // build tasks to run
-        $tasks = $this->buildTasks($input);
+        $tasks = $this->buildTasks($configuration['tasks']);
 
         // build required filters
-        $filters = $this->buildFilters();
+        $filters = $this->buildFilters($configuration['filters']);
 
         // run task with configured filter
         $normalizer = new Normalizer($this->container->getParameter('kernel.root_dir').'/../');
-        $runner = new TaskRunner($filters, new Locator($normalizer), $this->debug);
+        $locator = new Locator($normalizer);
+
+        // create the runner
+        $runner = new TaskRunner(
+            $filters,
+            $locator,
+            $this->debug
+        );
         $this->io->text('- Running tasks...');
 
         // run tasks
-        foreach ($tasks as $index => $task) {
+        foreach ($tasks as $task) {
             $this->runManagedTask($runner, $task);
         }
 
