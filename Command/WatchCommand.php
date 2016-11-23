@@ -45,10 +45,10 @@ class WatchCommand extends AbstractAssetsCommand
             ->io
             ->section('Watch assets changes');
 
+        $configuration = $this->loadConfiguration($input);
+
         // get debug mode
-        $this->debug = $this
-            ->container
-            ->getParameter('jk.assets.debug');
+        $this->debug = $configuration['debug'];
 
         if ($this->debug) {
             $this->io->note('Debug Mode...');
@@ -59,7 +59,7 @@ class WatchCommand extends AbstractAssetsCommand
         pcntl_signal(SIGINT, [$this, 'stopWatch']);
 
         $indexer = new FileIndexer();
-        $sources = $this->collectSources($input);
+        $sources = $this->collectSources($configuration['tasks']);
 
         // start watching sources
         $this
@@ -102,15 +102,15 @@ class WatchCommand extends AbstractAssetsCommand
     }
 
     /**
-     * @param InputInterface $input
+     * @param array $tasks
      *
      * @return array
      */
-    protected function collectSources(InputInterface $input)
+    protected function collectSources(array $tasks)
     {
         $sources = [];
         $directories = [];
-        $tasks = $this->buildTasks($input);
+        $tasks = $this->buildTasks($tasks);
 
         foreach ($tasks as $task) {
             $sources = array_merge($sources, $task->getSources());
