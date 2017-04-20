@@ -9,7 +9,6 @@
       "email": "arnaudfrezet@gmail.com"
     }
   ],
-  "minimum-stability": "stable",
   "require": {
     "symfony/symfony": "^3.0",
     "johnkrovitch/sam": "^0.1"
