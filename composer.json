@@ -9,10 +9,12 @@
       "email": "arnaudfrezet@gmail.com"
     }
   ],
-  "minimum-stability": "stable",
   "require": {
     "symfony/symfony": "^3.0",
-    "johnkrovitch/sam": "dev-dev"
+    "johnkrovitch/sam": "^0.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.6"
   },
   "keywords": [
     "Admin",
@@ -24,6 +26,9 @@
     "psr-0": {
       "JK\\SamBundle": ""
     }
+  },
+  "config": {
+    "bin-dir": "bin"
   },
   "target-dir": "JK/SamBundle"
 }

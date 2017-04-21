@@ -25,9 +25,8 @@ class JKSamExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
-        $container->setParameter('jk.assets.debug', $config['debug']);
-        $container->setParameter('jk.assets.filters', $config['filters']);
-        $container->setParameter('jk.assets.tasks', $config['tasks']);
+        // define the assets configuration into the container
+        $container->setParameter('jk.assets', $config);
     }
 
     public function getAlias()
