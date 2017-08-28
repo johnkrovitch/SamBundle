@@ -62,6 +62,11 @@ class WatchCommand extends AbstractAssetsCommand
         $sources = $this->collectSources($configuration['tasks']);
 
         // start watching sources
+        $this->io->text('Building assets...');
+        $runCommand = new RunCommand();
+        $runCommand->setContainer($this->container);
+        $runCommand->run(new ArrayInput([]), $output);
+        
         $this
             ->io
             ->text('Watching...');
