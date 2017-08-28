@@ -82,6 +82,10 @@ class WatchCommand extends AbstractAssetsCommand
                 $runCommand = new RunCommand();
                 $runCommand->setContainer($this->container);
                 $runCommand->run(new ArrayInput([]), $output);
+    
+                // re-index the sources because they could have been changed during the previous build (for example,
+                // if the destination of a task is the source of an other task, it could lead to infinite build)
+                $indexer->index($sources);
 
                 $this
                     ->io
