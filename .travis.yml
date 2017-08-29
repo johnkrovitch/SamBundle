@@ -4,6 +4,10 @@ php:
     - 5.6
     - 7.0
     - hhvm
+before_install:
+    - sudo apt-get -qq update
+    - sudo apt-get install -y gem
+    - sudo gem install compass
 install:
     - composer install --profile --optimize-autoloader
 script:
