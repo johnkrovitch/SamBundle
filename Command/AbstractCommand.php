@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Yaml\Yaml;
 
-abstract class AbstractAssetsCommand extends Command implements ContainerAwareInterface
+abstract class AbstractCommand extends Command implements ContainerAwareInterface
 {
     /**
      * @var SymfonyStyle
