@@ -101,5 +101,8 @@ class BuildCommandTest extends WebTestCase
         $this->assertContains('Running main.css', $content);
         $this->assertContains('x Success !!!', $content);
         $this->assertContains('[OK] Assets build end', $content);
+    
+        $fileContent = 'body{color:blue}a{color:red}';
+        $this->assertEquals(file_get_contents(__DIR__.'/../../web/css/main.css'), $fileContent);
     }
 }

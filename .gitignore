@@ -1,5 +1,8 @@
-/vendor/
+vendor/
 composer.lock
 bin
 phpunit.xml
 build
+var/cache
+web
+.sass-cache
