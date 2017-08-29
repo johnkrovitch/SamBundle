@@ -4,9 +4,9 @@ namespace JK\SamBundle\Tests\Event;
 
 use JK\Sam\Event\NotificationEvent;
 use JK\SamBundle\Event\Subscriber\NotificationSubscriber;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class NotificationSubscriberTest extends PHPUnit_Framework_TestCase
+class NotificationSubscriberTest extends TestCase
 {
     /**
      * The subscriber should subscribe to the notify event.
