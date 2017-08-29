@@ -1,0 +1,65 @@
+jk_assets:
+    debug: false
+    register_assets: true
+    filters:
+        compass:
+            bin: compass
+        merge: ~
+        minify: ~
+        copy: ~
+    tasks:
+        app.css:
+            filters:
+                - compass
+                - merge
+                - minify
+            sources:
+                - app/Resources/assets/sass/main.scss
+                - app/Resources/assets/css/hover-min.css
+                - vendor/components/bootstrap/css/bootstrap.min.css
+                - vendor/components/bootstrap/css/bootstrap-theme.min.css
+                - vendor/components/font-awesome/css/font-awesome.min.css
+            destinations:
+                - web/css/main.css
+
+        fonts:
+            filters: ~
+            sources:
+                - vendor/components/bootstrap/fonts/
+                - vendor/components/font-awesome/fonts/
+            destinations:
+                - web/fonts/
+
+        cms.css:
+            filters:
+                - compass
+                - merge
+                - minify
+            sources:
+                - src/BlueBear/CmsBundle/Resources/scss/cms.scss
+                - vendor/components/bootstrap/css/bootstrap.min.css
+                - vendor/components/bootstrap/css/bootstrap-theme.min.css
+                - vendor/components/font-awesome/css/font-awesome.min.css
+            destinations:
+                - web/css/cms.css
+
+        tinymce.css:
+            filters:
+                - compass
+                - merge
+                - minify
+            sources:
+                - src/JK/CmsBundle/Resources/assets/sass/tinymce.scss
+                - web/css/main.css
+            destinations:
+                - src/JK/CmsBundle/Resources/public/css/tinymce.css
+
+        cms.js:
+            filters:
+                - minify
+                - merge
+            sources:
+                - src/JK/CmsBundle/Resources/assets/js
+                - vendor/blueimp/jquery-file-upload/js/jquery.fileupload.js
+            destinations:
+                - web/js/cms.js
