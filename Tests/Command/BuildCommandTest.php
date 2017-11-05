@@ -4,13 +4,13 @@ namespace JK\SamBundle\Tests\Command;
 
 use JK\SamBundle\Command\BuildCommand;
 use JK\SamBundle\Event\Subscriber\NotificationSubscriber;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class BuildCommandTest extends WebTestCase
+class BuildCommandTest extends TestCase
 {
     public function testRun()
     {
