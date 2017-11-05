@@ -10,7 +10,7 @@
     }
   ],
   "require": {
-    "symfony/symfony": "^3.0",
+    "symfony/symfony": "^2.3 || ^3.0",
     "johnkrovitch/sam": "^0.1"
   },
   "require-dev": {
