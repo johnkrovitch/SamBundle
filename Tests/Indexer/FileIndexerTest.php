@@ -6,9 +6,10 @@ use Exception;
 use JK\SamBundle\Watcher\Indexer\FileIndexer;
 use PHPUnit\Framework\TestCase;
 use SplFileInfo;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Finder\Finder;
 
-class FileIndexerTest extends TestCase
+class FileIndexerTest extends WebTestCase
 {
     /**
      * An invalid directory should throw an Exception.

@@ -4,9 +4,9 @@ namespace JK\SamBundle\Tests\Event;
 
 use JK\Sam\Event\NotificationEvent;
 use JK\SamBundle\Event\Subscriber\NotificationSubscriber;
-use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class NotificationSubscriberTest extends TestCase
+class NotificationSubscriberTest extends WebTestCase
 {
     /**
      * The subscriber should subscribe to the notify event.
@@ -16,7 +16,8 @@ class NotificationSubscriberTest extends TestCase
         $this
             ->assertEquals([
                 NotificationEvent::NAME => 'notify'
-            ], NotificationSubscriber::getSubscribedEvents());
+            ], NotificationSubscriber::getSubscribedEvents())
+        ;
     }
 
     /**
