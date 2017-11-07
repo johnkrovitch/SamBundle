@@ -3,9 +3,9 @@ language: php
 dist: trusty
 
 php:
-#    - 5.6
     - 7.0
-#    - hhvm
+    - 7.1
+    - 7.2
 
 before_install:
     - sudo apt-get -qq update
@@ -25,7 +25,7 @@ after_script:
     - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 
 env:
-#  - SYMFONY_VERSION=2.8.*
+  - SYMFONY_VERSION=2.8.*
   - SYMFONY_VERSION=3.0.*
   - SYMFONY_VERSION=3.1.*
   - SYMFONY_VERSION=3.2.*
