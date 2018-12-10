@@ -1,4 +1,7 @@
 # SamBundle
+
+[![GuardRails badge](https://badges.production.guardrails.io/johnkrovitch/SamBundle.svg)](https://www.guardrails.io)
+
 SamBundle for Symfony. Add a command to build the assets using configuration in app/config.
 SamBundle use the Sam library (stand for Simple Asset Manager) and will allow to configure how your assets will be build,
 minified and merged.
