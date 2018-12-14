@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class WatchCommand extends AbstractAssetsCommand
+class WatchCommand extends AbstractCommand
 {
     /**
      * Indicate if the watching loop should continue.
@@ -62,6 +62,10 @@ class WatchCommand extends AbstractAssetsCommand
         $sources = $this->collectSources($configuration['tasks']);
 
         // start watching sources
+        $runCommand = new BuildCommand();
+        $runCommand->setContainer($this->container);
+        $runCommand->run(new ArrayInput([]), $output);
+        
         $this
             ->io
             ->text('Watching...');
@@ -74,9 +78,13 @@ class WatchCommand extends AbstractAssetsCommand
                     ->io
                     ->note('Sources has been modified...');
 
-                $runCommand = new RunCommand();
+                $runCommand = new BuildCommand();
                 $runCommand->setContainer($this->container);
                 $runCommand->run(new ArrayInput([]), $output);
+    
+                // re-index the sources because they could have been changed during the previous build (for example,
+                // if the destination of a task is the source of an other task, it could lead to infinite build)
+                $indexer->index($sources);
 
                 $this
                     ->io

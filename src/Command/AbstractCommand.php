@@ -13,9 +13,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Yaml\Yaml;
 
-abstract class AbstractAssetsCommand extends Command implements ContainerAwareInterface
+abstract class AbstractCommand extends Command implements ContainerAwareInterface
 {
     /**
      * @var SymfonyStyle
@@ -31,6 +32,11 @@ abstract class AbstractAssetsCommand extends Command implements ContainerAwareIn
      * @var ContainerInterface
      */
     protected $container;
+    
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
 
     /**
      * Build tasks from the configuration array.
@@ -62,7 +68,7 @@ abstract class AbstractAssetsCommand extends Command implements ContainerAwareIn
     protected function buildFilters(array $configuration)
     {
         $this->io->text('- Building filters...');
-        $builder = new FilterBuilder($this->container->get('event_dispatcher'));
+        $builder = new FilterBuilder($this->eventDispatcher);
 
         $filters = $builder->build($configuration);
 
@@ -94,12 +100,15 @@ abstract class AbstractAssetsCommand extends Command implements ContainerAwareIn
 
         return $configuration['jk_assets']['tasks'];
     }
-
+    
     /**
      * Load the configuration from a yml file or the container, according to the given option.
      *
      * @param InputInterface $input
+     *
      * @return array
+     *
+     * @throws Exception
      */
     protected function loadConfiguration(InputInterface $input)
     {
@@ -108,6 +117,10 @@ abstract class AbstractAssetsCommand extends Command implements ContainerAwareIn
         if ($input->hasOption('config') && $file = $input->getOption('config')) {
             $configuration = $loader->loadFromFile($file);
         } else {
+            
+            if (null === $this->container) {
+                throw new Exception('Unable to find the assets configuration from the container');
+            }
             $configuration = $loader->loadFromContainer($this->container);
         }
 
@@ -122,5 +135,6 @@ abstract class AbstractAssetsCommand extends Command implements ContainerAwareIn
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
+        $this->eventDispatcher = $this->container->get('event_dispatcher');
     }
 }

@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
-class RunCommand extends AbstractAssetsCommand implements ContainerAwareInterface
+class BuildCommand extends AbstractCommand implements ContainerAwareInterface
 {
     /**
      * Configure the task name.
@@ -86,8 +86,6 @@ class RunCommand extends AbstractAssetsCommand implements ContainerAwareInterfac
 
         // display end message
         $this->io->success('Assets build end');
-
-        return 0;
     }
 
     /**

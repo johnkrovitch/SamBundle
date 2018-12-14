@@ -11,13 +11,32 @@ use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * Use to load the configuration from a yaml file or from the container.
+ */
 class ConfigurationLoader
 {
+    /**
+     * Load the configuration using the service container.
+     *
+     * @param ContainerInterface $container
+     *
+     * @return array
+     */
     public function loadFromContainer(ContainerInterface $container)
     {
         return $container->getParameter('jk.assets');
     }
-
+    
+    /**
+     * Load the configuration from a yaml file in the file system.
+     *
+     * @param string $path
+     *
+     * @return array
+     *
+     * @throws Exception
+     */
     public function loadFromFile($path)
     {
         // the file should exists

@@ -1,16 +1,32 @@
 language: php
 
+dist: trusty
+
 php:
-    - 5.6
-    - 7.0
-    - hhvm
+    - 7.1
+    - 7.2
+
+before_install:
+    - sudo apt-get -qq update
+    - sudo apt-get install -y ruby-dev
+    - sudo apt-get install -y gem
+    - sudo gem install compass
 
 install:
-    - composer install --profile --optimize-autoloader
+    - if [ "$SYMFONY_VERSION" != "" ]; then composer require "symfony/symfony:${SYMFONY_VERSION}" --no-update; fi;
+    - composer update --optimize-autoloader
 
 script:
-  - bin/phpunit --coverage-text --coverage-clover=coverage.clover
+    - bin/phpunit --coverage-text --coverage-clover=coverage.clover
 
 after_script:
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+    - wget https://scrutinizer-ci.com/ocular.phar
+    - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+
+env:
+  - SYMFONY_VERSION=3.1.*
+  - SYMFONY_VERSION=3.2.*
+  - SYMFONY_VERSION=3.3.*
+  - SYMFONY_VERSION=4.0.*
+  - SYMFONY_VERSION=4.1.*
+  - SYMFONY_VERSION=4.2.*
