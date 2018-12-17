@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/johnkrovitch/SamBundle.svg?branch=master)](https://travis-ci.org/johnkrovitch/SamBundle)
 [![GuardRails badge](https://badges.production.guardrails.io/johnkrovitch/SamBundle.svg)](https://www.guardrails.io)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/johnkrovitch/SamBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/johnkrovitch/SamBundle/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/johnkrovitch/SamBundle/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/johnkrovitch/SamBundle/?branch=master)
 
 SamBundle for Symfony. Add a command to build the assets using configuration in app/config.
 SamBundle use the Sam library (stand for Simple Asset Manager) and will allow to configure how your assets will be build,
